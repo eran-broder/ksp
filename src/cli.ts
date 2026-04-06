@@ -2,7 +2,7 @@
 import { KspClient, Sort } from "./client.js";
 import { findAvailable } from "./availability.js";
 import { branchesByRegion, branchesByCity, branches, regions, type Region } from "./branches.js";
-import { extractImageUrls } from "./images.js";
+import { extractImageUrls, listingImageUrl, type ImageSizeKey } from "./images.js";
 
 const ksp = new KspClient();
 
@@ -210,6 +210,27 @@ async function cmdAutocomplete(args: string[]) {
   }
 }
 
+async function cmdImages(args: string[]) {
+  const uin = Number(positional(args)[0]);
+  if (!uin) die("usage: ksp images <uin> [--size small|medium|large] [--thumb]");
+
+  if (hasFlag(args, "thumb")) {
+    console.log(listingImageUrl(uin));
+    return;
+  }
+
+  const sizeMap: Record<string, ImageSizeKey> = { small: "s", s: "s", medium: "b", m: "b", large: "l", l: "l" };
+  const sizeArg = flag(args, "size");
+  const size: ImageSizeKey = sizeArg ? (sizeMap[sizeArg.toLowerCase()] ?? die(`unknown size: ${sizeArg}. options: small, medium, large`)) : "l";
+
+  const images = await ksp.getProductImages(uin, size);
+  console.log(`${images.length} images (size: ${size === "s" ? "small" : size === "b" ? "medium" : "large"}):\n`);
+  for (const img of images) {
+    const dims = img.width && img.height ? ` (${img.width}x${img.height})` : "";
+    console.log(`  ${img.url}${dims}`);
+  }
+}
+
 // ── Main ──
 
 const HELP = `ksp — search KSP.co.il from the terminal
@@ -222,6 +243,10 @@ Commands:
     --pricing              Include live pricing & promotions
 
   product <uin>            Full product detail
+
+  images <uin>             Product image URLs
+    --size <small|medium|large>  Image size (default: large)
+    --thumb                Listing thumbnail only (no API call)
 
   pricing <uin> [uin...]   Live pricing for product(s)
 
@@ -248,6 +273,9 @@ Examples:
   ksp search "gaming laptop" --sort price --category 271
   ksp product 332369
   ksp find "airpods" --region tel-aviv
+  ksp images 332369
+  ksp images 332369 --size small
+  ksp images 332369 --thumb
   ksp availability 332369 --region haifa
   ksp branches --region jerusalem`;
 
@@ -257,6 +285,7 @@ async function main() {
   switch (command) {
     case "search": case "s":         return cmdSearch(args);
     case "product": case "p":        return cmdProduct(args);
+    case "images": case "img":       return cmdImages(args);
     case "pricing":                  return cmdPricing(args);
     case "availability": case "av":  return cmdAvailability(args);
     case "find": case "f":           return cmdFind(args);
