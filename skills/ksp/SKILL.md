@@ -8,7 +8,9 @@ allowed-tools: Read Bash(npx tsx *)
 
 You have access to a TypeScript SDK for KSP.co.il.
 
-When the user asks about KSP products, write a small `.ts` script in the SDK root directory, run it with `npx tsx <script>.ts` from that directory, then summarize the results. Clean up the script after.
+When the user asks about KSP products, **always write a TypeScript script** that uses the SDK directly — do NOT use the CLI. Scripts are faster, smarter, and can combine multiple API calls, filter/sort/score results programmatically, and produce rich output in a single run.
+
+Write a small `.ts` script in the SDK root directory, run it with `npx tsx <script>.ts`, summarize the results, then delete the script.
 
 If `node_modules` doesn't exist yet, run `npm install` first.
 

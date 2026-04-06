@@ -207,33 +207,29 @@ Get sub-category and filter IDs from `listProducts().filter` and `listProducts()
 
 ## CLI
 
-Use from the terminal without writing any code.
+Full-featured command-line interface. Every command supports `--json` for raw output.
 
 ```bash
-# Run directly (no build needed)
 npm run ksp -- search "iphone 16" --pricing
-
-# Or install globally after building
-npm run build
-npm link
-ksp search "iphone 16" --pricing
 ```
 
 ```
-ksp search "gaming laptop" --sort price --category 271 --limit 5
-ksp product 332369
-ksp pricing 332369 382583
-ksp availability 332369 --region haifa
-ksp find "airpods" --region tel-aviv
-ksp find "lego" --branch dizingof
-ksp worlds
-ksp branches --region jerusalem
-ksp autocomplete "lego tech"
+ksp search "thinkpad" --sort price --category 271 --limit 5
+ksp search "mouse" --page 2 --tt <token>        # paginate with cursor
+ksp search "lego" --json | jq '.items[].name'    # pipe raw JSON
+ksp product 332369                               # full detail with specs, promos, stock, variations
+ksp images 332369 --size small                   # image URLs at specific size
+ksp images 332369 --thumb                        # listing thumbnail (no API call)
+ksp pricing 332369 382583                        # batch pricing with promo links & dates
+ksp availability 332369 --region haifa           # stock per branch
+ksp find "airpods" --region tel-aviv             # search + availability filter (shows qty)
+ksp find "lego" --branch dizingof --json         # raw availability data
+ksp worlds                                       # category tree with images
+ksp branches --region jerusalem                  # store list
+ksp autocomplete "samsung"                       # suggestions with categories
 ```
 
-**Sort:** `popular` (default), `price`, `price-desc`, `newest`
-
-**Shorthand commands:** `s` (search), `p` (product), `f` (find), `av` (availability), `w` (worlds), `b` (branches), `ac` (autocomplete)
+**Shorthand:** `s` `p` `img` `f` `av` `w` `b` `ac`
 
 ## Claude Code Plugin
 
@@ -250,6 +246,8 @@ Then use natural language:
 /ksp what airpods are in stock in haifa?
 /ksp cheapest gaming laptop with RTX
 ```
+
+> **Tip for the skill:** The skill works best when it writes short TypeScript scripts using the SDK directly, rather than shelling out to the CLI. Scripts can combine multiple API calls, filter results programmatically, compute scores, and format output — things the CLI can't do in a single invocation. The CLI is great for quick one-off lookups from your terminal; the SDK is the power tool.
 
 ## License
 
