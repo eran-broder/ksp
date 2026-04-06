@@ -4,9 +4,13 @@
   "description": "TypeScript SDK for KSP.co.il search and product APIs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "bin": {
+    "ksp": "dist/cli.js"
+  },
   "scripts": {
     "build": "tsc",
-    "test": "npx tsx test.ts"
+    "test": "npx tsx test.ts",
+    "ksp": "tsx src/cli.ts"
   },
   "keywords": [
     "ksp",

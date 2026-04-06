@@ -205,6 +205,36 @@ Filter by any combination of:
 
 Get sub-category and filter IDs from `listProducts().filter` and `listProducts().types`.
 
+## CLI
+
+Use from the terminal without writing any code.
+
+```bash
+# Run directly (no build needed)
+npm run ksp -- search "iphone 16" --pricing
+
+# Or install globally after building
+npm run build
+npm link
+ksp search "iphone 16" --pricing
+```
+
+```
+ksp search "gaming laptop" --sort price --category 271 --limit 5
+ksp product 332369
+ksp pricing 332369 382583
+ksp availability 332369 --region haifa
+ksp find "airpods" --region tel-aviv
+ksp find "lego" --branch dizingof
+ksp worlds
+ksp branches --region jerusalem
+ksp autocomplete "lego tech"
+```
+
+**Sort:** `popular` (default), `price`, `price-desc`, `newest`
+
+**Shorthand commands:** `s` (search), `p` (product), `f` (find), `av` (availability), `w` (worlds), `b` (branches), `ac` (autocomplete)
+
 ## Claude Code Plugin
 
 Install as a Claude Code plugin:

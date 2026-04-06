@@ -15,7 +15,7 @@ export interface ProductWithStock {
 
 export interface AvailabilityFilter {
   /** Only include products available at these specific branch keys. */
-  branchKeys?: BranchKey[];
+  branchKeys?: (BranchKey | string)[];
   /** Only include products available in these regions. */
   regions?: Region[];
   /** Only include products available in these cities. */
