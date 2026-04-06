@@ -183,13 +183,15 @@ async function cmdProduct(args: string[]) {
   }
 
   // Variations
+  const render = p.products_options && !Array.isArray(p.products_options.render) ? p.products_options.render : null;
   if (p.products_options && p.products_options.variations.length > 1) {
-    const axes = Object.values(p.products_options.render.tags).map((a) => a.name);
-    console.log(`\nVariations (${p.products_options.variations.length}) — axes: ${axes.join(", ")}`);
+    const axes = render ? Object.values(render.tags).map((a: { name: string }) => a.name) : [];
+    console.log(`\nVariations (${p.products_options.variations.length})${axes.length ? ` — axes: ${axes.join(", ")}` : ""}`);
     for (const v of p.products_options.variations.slice(0, 10)) {
-      const tagNames = Object.entries(v.tags).map(([axis, tagId]) => {
-        const axisData = p.products_options?.render.tags[axis];
-        return axisData?.items.find((i) => i.id === tagId)?.name ?? tagId;
+      const vTags = Array.isArray(v.tags) ? {} : v.tags;
+      const tagNames = Object.entries(vTags).map(([axis, tagId]) => {
+        const axisData = render?.tags[axis];
+        return axisData?.items.find((i: { id: string; name: string }) => i.id === tagId)?.name ?? tagId;
       });
       const marker = v.data.uin_item === String(uin) ? " ←" : "";
       console.log(`  ₪${v.data.price.padEnd(8)} ${tagNames.join(" / ")}${marker}`);

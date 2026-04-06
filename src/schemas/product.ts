@@ -68,14 +68,17 @@ export const VariationAxisSchema = z.object({
 
 export const VariationSchema = z.object({
   data: z.object({ uin_item: str, price: str, bms_price: num.optional() }),
-  tags: z.record(str, str),
+  tags: z.union([z.record(str, str), z.array(z.any())]),
 });
 
 export const ProductOptionsSchema = z.object({
-  render: z.object({
-    tags: z.record(str, VariationAxisSchema),
-    chooses: z.record(str, z.object({ id: str })),
-  }),
+  render: z.union([
+    z.object({
+      tags: z.record(str, VariationAxisSchema),
+      chooses: z.record(str, z.object({ id: str })),
+    }),
+    z.array(z.any()),
+  ]),
   variations: z.array(VariationSchema),
 });
 
