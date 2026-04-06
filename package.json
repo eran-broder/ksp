@@ -1,0 +1,27 @@
+{
+  "name": "ksp-sdk",
+  "version": "1.0.0",
+  "description": "TypeScript SDK for KSP.co.il search and product APIs",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "npx tsx test.ts"
+  },
+  "keywords": [
+    "ksp",
+    "sdk",
+    "search"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "typescript": "^6.0.2",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.17",
+    "tsx": "^4.21.0"
+  }
+}

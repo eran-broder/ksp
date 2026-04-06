@@ -1,0 +1,10 @@
+{
+  "name": "ksp",
+  "description": "TypeScript SDK and Claude Code skill for searching KSP.co.il — Israel's largest electronics retailer. Search products, compare prices, check branch availability, and find deals.",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eranyanay/ksp.git"
+  },
+  "license": "MIT"
+}
