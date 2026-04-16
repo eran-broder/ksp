@@ -112,9 +112,9 @@ export const ProductDetailDataSchema = z.object({
   is_dynamic_parent: bool,
   pricePerUnit: z.any().nullable(),
   dcExtra: str,
-  dcBid: bool,
+  dcBid: z.union([bool, num]),
   maxPaymentsWithoutVat: str,
-  cheaperPriceViaPhone: str,
+  cheaperPriceViaPhone: z.union([str, num, bool]),
   note: str,
   cheaperInApp: str.optional(),
 });

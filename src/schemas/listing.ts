@@ -34,7 +34,7 @@ export const ProductItemSchema = z.object({
   disPayments: z.union([num, str]),
   tags: z.record(str, str),
   labels: z.array(LabelSchema),
-  redMsg: z.array(z.any()),
+  redMsg: z.union([z.array(z.any()), z.record(z.string(), z.any()), str, bool]),
   payments: PaymentsInfoSchema,
   popularies_data: PopularitySchema.optional(),
   main_family_id: num.optional(),
