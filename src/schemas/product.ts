@@ -42,7 +42,7 @@ export const DeliveryOptionSchema = z.object({
   hool: bool,
   title: str,
   type: str,
-  price: num,
+  price: z.union([num, str]),
   pos: num,
   time: z.object({
     min: z.union([num, str]),
